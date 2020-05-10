@@ -1,4 +1,5 @@
 export {
   mdiCheckCircle,
-  mdiCloudUploadOutline
+  mdiUpload,
+  mdiAlert
 } from '@mdi/js'

@@ -1,22 +1,32 @@
 <template>
-  <div style="width: 50%; height: 100%" class="d-flex flex-column align-center justify-space-between py-12">
-    <v-progress-circular
-      indeterminate
-      size="96"
-      width="4"
-      class="my-4"
-      color="green"
-      v-if="!done"
-    />
-    <v-icon
-      v-if="done"
-      color="green"
-      size="128"
-      class="mb-4"
-    >
-      {{ icons.mdiCheckCircle }}
-    </v-icon>
-    <p v-if="done" class="title font-weight-regular">Download starting...</p>
+  <div
+    style="width: 100%; height: 100%"
+    class="d-flex flex-column align-center justify-space-between"
+  >
+    <template v-if="!done">
+      <p class="title font-weight-light grey--text mt-10">
+        Wait for the download to start...
+      </p>
+      <v-progress-circular
+        indeterminate
+        size="64"
+        width="2"
+        class="mt-6"
+      />
+    </template>
+    <template v-else>
+      <p class="title font-weight-light grey--text mt-10">
+        Download complete
+      </p>
+      <v-icon
+        v-if="done"
+        color="green"
+        size="128"
+        class="mb-6"
+      >
+        {{ icons.mdiCheckCircle }}
+      </v-icon>
+    </template>
   </div>
 </template>
 
@@ -32,13 +42,16 @@ export default class DownloadComponent extends Vue {
   }
 
   @Prop()
-  type!: string
+  inputType!: string
 
   @Prop()
-  data!: ArrayBuffer
+  inputFilename!: string
 
   @Prop()
-  format!: string
+  inputData!: ArrayBuffer
+
+  @Prop()
+  outputFormat!: string
 
   done = false
 
@@ -49,8 +62,8 @@ export default class DownloadComponent extends Vue {
   async download () {
     this.done = false
     await new Promise(resolve => setTimeout(resolve, 500))
-    const blob = await convert(this.type, this.format, this.data)
-    download(blob, 'test.png')
+    const blob = await convert(this.inputType, this.outputFormat, this.inputData)
+    download(blob, this.inputFilename.replace(/\.[^.]+$/, `.${this.outputFormat}`))
     this.done = true
   }
 }
