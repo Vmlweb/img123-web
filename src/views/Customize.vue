@@ -61,8 +61,8 @@ import { Vue, Component } from 'vue-property-decorator'
 export default class UploadComponent extends Vue {
   get formats () {
     return [
-      ['png', '!gif', '!tif', '!bmp'],
-      ['!ico', '!icns']
+      ['png', 'gif', 'bmp', 'webp'],
+      ['tiff', '!ico', '!icns']
     ]
   }
 }

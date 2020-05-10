@@ -46,46 +46,22 @@
       type="file"
       accept="image/*"
       @change="fileChanged"
-    ><br>
-    <v-overlay
-      :value="error"
-      opacity="0.8"
     >
-      <div class="d-flex flex-column justify-space-between align-center">
-        <v-icon
-          color="yellow"
-          size="64"
-        >
-          {{ icons.mdiAlert }}
-        </v-icon>
-        <p class="title font-weight-light">
-          {{ error }}
-        </p>
-        <v-btn
-          text
-          @click="error = ''"
-        >
-          Ok
-        </v-btn>
-      </div>
-    </v-overlay>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { detect } from '@/helpers'
-import { mdiUpload, mdiAlert } from '@/helpers/icons'
+import { mdiUpload } from '@/helpers/icons'
 
 @Component
 export default class UploadComponent extends Vue {
   icons = {
-    mdiUpload,
-    mdiAlert
+    mdiUpload
   }
 
   uploading = false
-  error = ''
 
   fileDropped (event: any) {
     this.uploadFile(event.dataTransfer.files[0])
@@ -112,16 +88,16 @@ export default class UploadComponent extends Vue {
           }, 500)
         } else {
           this.uploading = false
-          this.error = 'File type unsupported'
+          this.$emit('error', 'Image file type unsupported')
         }
       } else {
         this.uploading = false
-        this.error = 'Unexpected data format'
+        this.$emit('error', 'Unexpected data format')
       }
     }
     reader.onerror = (event: any) => {
       this.uploading = false
-      this.error = `Failed to read file: ${event.target.error.code}`
+      this.$emit('error', `Failed to read file: ${event.target.error.code}`)
       reader.abort()
     }
     reader.onabort = () => {

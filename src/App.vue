@@ -1,6 +1,9 @@
 <template>
   <v-app>
-    <v-container class="d-flex flex-column align-center">
+    <v-container
+      v-if="supported.length"
+      class="d-flex flex-column align-center"
+    >
       <v-img
         :src="require('@/assets/logo.svg')"
         contain
@@ -54,6 +57,7 @@
       >
         <upload
           v-if="step === 1"
+          @error="error = $event"
           @change="inputType = $event.inputType; inputData = $event.inputData; inputFilename = $event.inputFilename"
         />
         <customize
@@ -70,6 +74,29 @@
         />
       </div>
     </v-container>
+    <v-overlay
+      :value="error"
+      opacity="0.8"
+    >
+      <div class="d-flex flex-column justify-space-between align-center">
+        <v-icon
+          color="yellow"
+          size="64"
+        >
+          {{ icons.mdiAlert }}
+        </v-icon>
+        <p class="title font-weight-light">
+          {{ error }}
+        </p>
+        <v-btn
+          v-if="supported.length"
+          text
+          @click="error = ''"
+        >
+          Ok
+        </v-btn>
+      </div>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -78,6 +105,8 @@ import { Vue, Component } from 'vue-property-decorator'
 import Upload from '@/views/Upload.vue'
 import Customize from '@/views/Customize.vue'
 import Download from '@/views/Download.vue'
+import { supported, Supported } from '@/helpers'
+import { mdiAlert } from '@/helpers/icons'
 
 @Component({
   components: {
@@ -87,13 +116,28 @@ import Download from '@/views/Download.vue'
   }
 })
 export default class AppComponent extends Vue {
+  supported: Supported[] = []
   inputType: string | null = null
   inputFilename: string | null = null
   inputData: ArrayBuffer | null = null
   outputFormat: string | null = null
 
+  icons = {
+    mdiAlert
+  }
+
+  error = ''
+
   reload () {
     location.reload()
+  }
+
+  async mounted () {
+    try {
+      this.supported = await supported()
+    } catch (err) {
+      this.error = err.message
+    }
   }
 
   reset () {
