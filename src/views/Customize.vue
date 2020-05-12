@@ -3,7 +3,10 @@
     style="width: 100%; height: 100%"
     class="d-flex flex-column align-center"
   >
-    <p class="title font-weight-light grey--text mt-10">
+    <p
+      class="font-weight-light grey--text mt-6"
+      :class="$vuetify.breakpoint.smAndDown ? 'subtitle-1' : 'title'"
+    >
       Choose the desired image format
     </p>
     <div
@@ -14,15 +17,20 @@
       <div
         v-for="item in section"
         :key="item"
-        class="mx-4 my-4"
+        :class="{
+          'mx-4 my-4': !$vuetify.breakpoint.smAndDown,
+          'mx-3 my-3': $vuetify.breakpoint.smAndDown,
+        }"
       >
         <v-card
           outlined
           class="d-flex flex-column align-center"
           link
           :disabled="item[0] === '!'"
-          width="128px"
-          height="128px"
+          :style="{
+            width: $vuetify.breakpoint.smAndDown ? '80px' : '128px',
+            height: $vuetify.breakpoint.smAndDown ? '80px' : '128px'
+          }"
           @click="$emit('change', item)"
         >
           <div
@@ -70,7 +78,7 @@ export default class UploadComponent extends Vue {
     const items = this.supported.filter(o => o.from === this.inputType || o.from === '*')
     const columns: string[][] = []
     while (items.length) {
-      columns.push(items.splice(0, 4).map(o => o.to))
+      columns.push(items.splice(0, this.$vuetify.breakpoint.smAndDown ? 3 : 4).map(o => o.to))
     }
     return columns
   }

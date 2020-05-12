@@ -4,7 +4,10 @@
     class="d-flex flex-column align-center justify-space-between"
   >
     <template v-if="!done">
-      <p class="title font-weight-light grey--text mt-10">
+      <p
+        class="font-weight-light grey--text mt-6"
+        :class="$vuetify.breakpoint.smAndDown ? 'subtitle-1' : 'title'"
+      >
         Wait for the download to start...
       </p>
       <v-progress-circular
@@ -15,7 +18,10 @@
       />
     </template>
     <template v-else>
-      <p class="title font-weight-light mt-10">
+      <p
+        class="font-weight-light mt-6"
+        :class="$vuetify.breakpoint.smAndDown ? 'subtitle-1' : 'title'"
+      >
         Download complete
       </p>
       <v-icon

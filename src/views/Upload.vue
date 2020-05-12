@@ -6,7 +6,8 @@
     @dragover.prevent
   >
     <p
-      class="title font-weight-light grey--text mt-10"
+      :class="$vuetify.breakpoint.smAndDown ? 'subtitle-1' : 'title'"
+      class="font-weight-light grey--text mt-6"
       style="cursor: pointer"
       @click="$refs.upload.click()"
     >

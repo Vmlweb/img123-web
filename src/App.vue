@@ -14,7 +14,7 @@
       />
       <v-stepper
         :alt-labels="!$vuetify.breakpoint.smAndDown"
-        :style="{ width: $vuetify.breakpoint.smAndDown ? '85%' : '60%' }"
+        :style="{ width: $vuetify.breakpoint.smAndDown ? '100%' : '60%' }"
         class="mb-6"
         :value="step"
       >
@@ -52,7 +52,8 @@
         </v-stepper-header>
       </v-stepper>
       <div
-        style="width: 50%; height: 100%"
+        style="height: 100%"
+        :style="{ width: $vuetify.breakpoint.smAndDown ? '90%' : '50%' }"
         class="d-flex flex-column align-center"
       >
         <upload
@@ -172,7 +173,7 @@ export default class AppComponent extends Vue {
 }
 
 .v-stepper__step {
-  padding: 12px !important;
+  padding: 6px !important;
 }
 
 @media only screen and (max-width: 959px) {
