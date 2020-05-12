@@ -4,7 +4,7 @@ export interface Supported {
 }
 
 export const supported = async () => {
-  const res = await fetch('http://localhost:8080/supported')
+  const res = await fetch('https://api.img123.tools/supported')
   const json = await res.json()
   return json as Supported[]
 }
