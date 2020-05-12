@@ -57,11 +57,14 @@
       >
         <upload
           v-if="step === 1"
+          :supported="supported"
           @error="error = $event"
           @change="inputType = $event.inputType; inputData = $event.inputData; inputFilename = $event.inputFilename"
         />
         <customize
           v-if="step === 2"
+          :input-type="inputType"
+          :supported="supported"
           @change="outputFormat = $event"
         />
         <download
@@ -105,7 +108,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import Upload from '@/views/Upload.vue'
 import Customize from '@/views/Customize.vue'
 import Download from '@/views/Download.vue'
-import { supported, Supported } from '@/helpers'
+import { supported, Supported } from '@/helpers/supported'
 import { mdiAlert } from '@/helpers/icons'
 
 @Component({

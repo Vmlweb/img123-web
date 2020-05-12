@@ -55,15 +55,24 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Supported } from '@/helpers/supported'
 
 @Component
 export default class UploadComponent extends Vue {
+  @Prop()
+  supported!: Supported[]
+
+  @Prop()
+  inputType!: string
+
   get formats () {
-    return [
-      ['png', 'gif', 'bmp', 'webp'],
-      ['tiff', '!ico', '!icns']
-    ]
+    const items = this.supported.filter(o => o.from === this.inputType || o.from === '*')
+    const columns: string[][] = []
+    while (items.length) {
+      columns.push(items.splice(0, 4).map(o => o.to))
+    }
+    return columns
   }
 }
 </script>

@@ -32,8 +32,9 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { download, convert } from '@/helpers'
+import { convert } from '@/helpers/convert'
 import { mdiCheckCircle } from '@/helpers/icons'
+import * as FileSaver from 'file-saver'
 
 @Component
 export default class DownloadComponent extends Vue {
@@ -63,7 +64,8 @@ export default class DownloadComponent extends Vue {
     this.done = false
     await new Promise(resolve => setTimeout(resolve, 500))
     const blob = await convert(this.inputType, this.outputFormat, this.inputData)
-    download(blob, this.inputFilename.replace(/\.[^.]+$/, `.${this.outputFormat}`))
+    const filename = this.inputFilename.replace(/\.[^.]+$/, `.${this.outputFormat}`)
+    FileSaver.saveAs(blob, filename)
     this.done = true
   }
 }

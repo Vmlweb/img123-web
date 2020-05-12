@@ -51,15 +51,19 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
-import { detect } from '@/helpers'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Supported } from '@/helpers/supported'
 import { mdiUpload } from '@/helpers/icons'
+import imageType from 'image-type'
 
 @Component
 export default class UploadComponent extends Vue {
   icons = {
     mdiUpload
   }
+
+  @Prop()
+  supported!: Supported[]
 
   uploading = false
 
@@ -76,12 +80,16 @@ export default class UploadComponent extends Vue {
     const reader = new FileReader()
     reader.onload = async () => {
       if (reader.result instanceof ArrayBuffer) {
-        const inputType = detect(reader.result)
-        if (inputType) {
+        const format = imageType(new Uint8Array(reader.result))
+        let ext = format?.ext as string
+        if (ext === 'tif') {
+          ext = 'tiff'
+        }
+        if (ext && this.supported.some(o => o.from === ext)) {
           setTimeout(() => {
             this.$emit('change', {
               inputFilename: file.name,
-              inputType,
+              inputType: ext,
               inputData: reader.result
             })
             this.uploading = false
