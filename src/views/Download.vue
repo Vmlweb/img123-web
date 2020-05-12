@@ -15,7 +15,7 @@
       />
     </template>
     <template v-else>
-      <p class="title font-weight-light grey--text mt-10">
+      <p class="title font-weight-light mt-10">
         Download complete
       </p>
       <v-icon
