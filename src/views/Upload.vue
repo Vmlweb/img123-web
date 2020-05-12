@@ -84,6 +84,8 @@ export default class UploadComponent extends Vue {
         let ext = format?.ext as string
         if (ext === 'tif') {
           ext = 'tiff'
+        } else if (file.name.endsWith('.icns')) {
+          ext = 'icns'
         }
         if (ext && this.supported.some(o => o.from === ext)) {
           setTimeout(() => {
