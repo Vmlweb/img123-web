@@ -14,7 +14,9 @@
     "reflect-metadata": "^0.1.13",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-gtag": "^1.6.5",
     "vue-property-decorator": "^8.4.1",
+    "vue-router": "^3.3.4",
     "vuetify": "^2.2.11",
     "whatwg-fetch": "^3.0.0"
   },

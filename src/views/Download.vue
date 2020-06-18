@@ -73,6 +73,11 @@ export default class DownloadComponent extends Vue {
     const filename = this.inputFilename.replace(/\.[^.]+$/, `.${this.outputFormat}`)
     FileSaver.saveAs(blob, filename)
     this.done = true
+
+    this.$gtag.event(`download_image_${this.inputType}_to_${this.outputFormat}`, {
+      event_category: 'download', // eslint-disable-line
+      event_label: `Download ${this.inputType} to ${this.outputFormat} conversion` // eslint-disable-line
+    })
   }
 }
 </script>

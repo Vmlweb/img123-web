@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import Upload from '@/views/Upload.vue'
 import Customize from '@/views/Customize.vue'
 import Download from '@/views/Download.vue'
@@ -137,6 +137,8 @@ export default class AppComponent extends Vue {
   }
 
   async mounted () {
+    this.onStepChanged(1)
+
     try {
       this.supported = await supported()
     } catch (err) {
@@ -158,6 +160,26 @@ export default class AppComponent extends Vue {
       return 2
     } else {
       return 3
+    }
+  }
+
+  @Watch('step')
+  onStepChanged (val: number) {
+    if (val === 1) {
+      this.$gtag.pageview({
+        page_path: '/upload', // eslint-disable-line
+        page_title: 'IMG123 Tools Upload' // eslint-disable-line
+      })
+    } else if (val === 2) {
+      this.$gtag.pageview({
+        page_path: `/customize?input=${this.inputType}`, // eslint-disable-line
+        page_title: 'IMG123 Tools Customize' // eslint-disable-line
+      })
+    } else if (val === 3) {
+      this.$gtag.pageview({
+        page_path: `/download?input=${this.inputType}&output=${this.outputFormat}`, // eslint-disable-line
+        page_title: 'IMG123 Tools Download' // eslint-disable-line
+      })
     }
   }
 }

@@ -95,6 +95,12 @@ export default class UploadComponent extends Vue {
               inputType: ext,
               inputData: reader.result
             })
+
+            this.$gtag.event(`upload_image_${ext}`, {
+              event_category: 'upload', // eslint-disable-line
+              event_label: `Upload ${ext} image` // eslint-disable-line
+            })
+
             this.uploading = false
           }, 500)
         } else {

@@ -31,7 +31,7 @@
             width: $vuetify.breakpoint.smAndDown ? '80px' : '128px',
             height: $vuetify.breakpoint.smAndDown ? '80px' : '128px'
           }"
-          @click="$emit('change', item)"
+          @click="selected(item)"
         >
           <div
             class="d-flex flex-column align-center justify-center"
@@ -81,6 +81,15 @@ export default class UploadComponent extends Vue {
       columns.push(items.splice(0, this.$vuetify.breakpoint.smAndDown ? 3 : 4).map(o => o.to))
     }
     return columns
+  }
+
+  selected (ext: string) {
+    this.$emit('change', ext)
+
+    this.$gtag.event(`customize_image_selected_${ext}`, {
+      event_category: 'customize', // eslint-disable-line
+      event_label: `Customize ${ext} selected` // eslint-disable-line
+    })
   }
 }
 </script>
