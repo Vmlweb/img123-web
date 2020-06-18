@@ -1,6 +1,6 @@
 # IMG123 Tools
 
-http://www.img123.tools/
+http://img123.tools/
 
 ## Project setup
 ```
