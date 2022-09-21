@@ -17,7 +17,7 @@
     "vue-gtag": "^1.6.5",
     "vue-property-decorator": "^8.4.1",
     "vue-router": "^3.3.4",
-    "vuetify": "^2.2.11",
+    "vuetify": "^2.6.10",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
